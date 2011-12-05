@@ -48,16 +48,18 @@ echo " done"
 
 
 cd $BUILD_DIR
-if [ -d $CACHE_DIR/.jdk7 ]; then
-  cp -r $CACHE_DIR/.jdk7 $BUILD_DIR
-if
+if [ -d "$CACHE_DIR/.jdk7" ]; then
+  echo -n "copying jdk to app"
+  cp -r "$CACHE_DIR/.jdk7" $BUILD_DIR
+  echo "done"
+fi
 
 OPENJDK7_URL="http://heroku-jvm-langpack-java.s3.amazonaws.com/openjdk7-heroku-alpha.tar.gz"
 
-if [ ! -d .jdk7 ]; then
+if [ ! -d "$BUILD_DIR/.jdk7" ]; then
   echo -n "-----> Installing OpenJDK7 alpha build (to .jdk7)....."
-  mkdir .jdk7
-  cd .jdk7
+  mkdir "$BUILD_DIR/.jdk7"
+  cd "$BUILD_DIR/.jdk7"
   curl --silent --max-time 180 --location $OPENJDK7_URL | tar xz
   echo " done"
 fi
@@ -93,3 +95,5 @@ if [ "true" == $KEEP_M2_CACHE ]; then
 fi
 
 cp -r .jdk7 $CACHE_DIR/.jdk7
+
+
