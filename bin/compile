@@ -20,9 +20,9 @@ fi
 if [ "true" == $KEEP_M2_CACHE ]; then
   logger -p user.notice -t "slugc[$$]" "language_pack_java retain_m2_repo"
 fi
-
 #create the cache dir if it doesn't exist
 mkdir -p $CACHE_DIR
+
 
 # change to cache dir to install maven
 cd $CACHE_DIR
@@ -46,13 +46,19 @@ fi
 curl --silent --max-time 10 --location $MAVEN_SETTINGS_URL --output .m2/settings.xml
 echo " done"
 
+
+cd $BUILD_DIR
+if [ -d $CACHE_DIR/.jdk7 ]; then
+  cp -r $CACHE_DIR/.jdk7 $BUILD_DIR
+if
+
 OPENJDK7_URL="http://heroku-jvm-langpack-java.s3.amazonaws.com/openjdk7-heroku-alpha.tar.gz"
 
 if [ ! -d .jdk7 ]; then
   echo -n "-----> Installing OpenJDK7 alpha build (to .jdk7)....."
   mkdir .jdk7
   cd .jdk7
-  curl --silent --max-time 180 --location $OPENDJK7_URL | tar xz
+  curl --silent --max-time 180 --location $OPENJDK7_URL | tar xz
   echo " done"
 fi
 
@@ -85,3 +91,5 @@ if [ "true" == $KEEP_M2_CACHE ]; then
     cp -r $CACHE_DIR/$DIR $DIR
   done
 fi
+
+cp -r .jdk7 $CACHE_DIR/.jdk7
