@@ -46,10 +46,22 @@ fi
 curl --silent --max-time 10 --location $MAVEN_SETTINGS_URL --output .m2/settings.xml
 echo " done"
 
+OPENJDK7_URL="http://heroku-jvm-langpack-java.s3.amazonaws.com/openjdk7-heroku-alpha.tar.gz"
+
+if [ ! -d .jdk7 ]; then
+  echo -n "-----> Installing OpenJDK7 alpha build (to .jdk7)....."
+  mkdir .jdk7
+  cd .jdk7
+  curl --silent --max-time 180 --location $OPENDJK7_URL | tar xz
+  echo " done"
+fi
+
+
 # change to build dir to run maven
 cd $BUILD_DIR
 
 export MAVEN_OPTS="-Xmx512m"
+export JAVA_HOME="$BUILD_DIR/.jdk7"
 
 # build app
 BUILDCMD="$CACHE_DIR/.maven/bin/mvn -B -Duser.home=$BUILD_DIR -Dmaven.repo.local=$CACHE_DIR/.m2/repository -s $CACHE_DIR/.m2/settings.xml -DskipTests=true clean install"
