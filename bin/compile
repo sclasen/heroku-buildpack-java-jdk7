@@ -54,7 +54,7 @@ if [ -d "$CACHE_DIR/.jdk7" ]; then
   echo "done"
 fi
 
-OPENJDK7_URL="http://heroku-jvm-langpack-java.s3.amazonaws.com/heroku-openjdk7-b147.tar.gz"
+OPENJDK7_URL="https://s3.amazonaws.com/heroku-jvm-langpack-java/openjdk7-u2-heroku-temaki.tar.gz"
 
 if [ ! -d "$BUILD_DIR/.jdk7" ]; then
   echo -n "-----> Installing OpenJDK7 alpha build (to .jdk7)....."
